@@ -1,5 +1,5 @@
 /* Neon Royale — service worker */
-const CACHE = 'neon-royale-v1';
+const CACHE = 'neon-royale-v2';
 const APP_SHELL = [
   '/',
   '/index.html',
