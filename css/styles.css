@@ -258,49 +258,67 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    ROULETTE
    ============================================================ */
-.roulette-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 8px;flex:1;overflow-y:auto;}
-.wheel-stage{position:relative;width:170px;height:170px;flex:0 0 auto;margin-top:4px;}
-.wheel{
-  width:170px;height:170px;border-radius:50%;position:relative;
-  background:conic-gradient(from 0deg,#0c5138 0 9.7deg,#161616 9.7deg 19.4deg);
-  border:6px solid var(--gold-deep);box-shadow:0 0 0 4px #1a120a,inset 0 0 22px rgba(0,0,0,.6),0 10px 26px rgba(0,0,0,.5);
-  transition:transform 4.6s cubic-bezier(.12,.62,.12,1);
+.roulette-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:9px;padding:10px 6px 14px;flex:1;overflow-y:auto;}
+
+/* ---- realistic wheel ---- */
+.rwheel-stage{position:relative;width:min(80vw,290px);aspect-ratio:1;flex:0 0 auto;margin:2px auto 0;}
+.rwheel-stage::before{ /* outer wooden bowl */
+  content:'';position:absolute;inset:-7%;border-radius:50%;
+  background:radial-gradient(circle at 50% 35%,#3a2412,#1c1109 70%,#0c0704);
+  box-shadow:0 16px 40px rgba(0,0,0,.6),inset 0 0 22px rgba(0,0,0,.7);
 }
-.wheel-hub{position:absolute;inset:30%;border-radius:50%;background:radial-gradient(circle,#1d130a,#0a0805);border:3px solid var(--gold-deep);display:grid;place-items:center;color:var(--gold);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;}
-.wheel-ball{position:absolute;top:6px;left:50%;width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#b9b9b9);box-shadow:0 0 6px rgba(255,255,255,.8);transform:translateX(-50%);}
-.wheel-pointer{position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:14px solid var(--gold);filter:drop-shadow(0 2px 2px rgba(0,0,0,.6));z-index:3;}
+.rwheel{position:absolute;inset:0;will-change:transform;}
+.rwheel svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 16px rgba(0,0,0,.5));}
+.rball{
+  position:absolute;left:50%;top:50%;width:5%;height:5%;border-radius:50%;z-index:6;will-change:transform;
+  background:radial-gradient(circle at 34% 28%,#ffffff,#e6e6e6 45%,#a8a8a8 100%);
+  box-shadow:0 0 7px rgba(255,255,255,.85),inset -1px -1px 2px rgba(0,0,0,.45);
+}
+.r-pointer{
+  position:absolute;top:-3%;left:50%;transform:translateX(-50%);z-index:7;
+  width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:15px solid var(--gold-bright);
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.6));
+}
+
 .result-num{
-  min-width:46px;height:46px;padding:0 6px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-size:20px;color:#fff;
-  border:2px solid var(--gold);box-shadow:var(--shadow);
+  min-width:44px;height:44px;padding:0 6px;border-radius:11px;display:grid;place-items:center;font-weight:900;font-size:19px;color:#fff;
+  border:2px solid var(--gold);box-shadow:var(--shadow);animation:pop .3s ease;
 }
 .result-num.red{background:linear-gradient(180deg,#d8493a,#9e2418);}
 .result-num.black{background:linear-gradient(180deg,#2b2b2b,#101010);}
 .result-num.green{background:linear-gradient(180deg,#15915f,#0a4a30);}
-.result-history{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:340px;}
+.result-history{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:340px;min-height:24px;}
 .rh{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;}
 .rh.red{background:#9e2418;}.rh.black{background:#1a1a1a;}.rh.green{background:#0a6b45;}
 
-.bet-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;width:100%;max-width:380px;font-weight:800;}
-.bet-cell{
-  position:relative;aspect-ratio:1/1.15;border-radius:5px;display:grid;place-items:center;font-size:12px;color:#fff;
-  border:1px solid rgba(255,255,255,.14);transition:.1s;
+/* ---- realistic betting layout (cloth) ---- */
+.rtable{
+  width:100%;max-width:392px;margin-top:2px;padding:7px;border-radius:12px;
+  background:linear-gradient(160deg,#0d6a44,#085233 70%,#063f28);
+  border:1px solid rgba(231,194,90,.5);box-shadow:inset 0 0 26px rgba(0,0,0,.4),0 8px 20px rgba(0,0,0,.4);
+  display:grid;grid-template-columns:26px repeat(12,1fr) 30px;grid-auto-rows:minmax(28px,auto);gap:3px;
+  font-weight:800;
 }
-.bet-cell .stake{position:absolute;bottom:-4px;right:-4px;background:var(--gold);color:#241a04;font-size:9px;min-width:15px;height:15px;border-radius:50%;display:grid;place-items:center;border:1px solid #241a04;z-index:2;}
-.bet-cell.red{background:#9e2418;}.bet-cell.black{background:#181818;}.bet-cell.green{background:#0a6b45;grid-row:span 3;}
-.bet-cell:active{filter:brightness(1.4);}
-.bet-zero{grid-column:1;grid-row:1 / span 3;}
-.bet-num{grid-column:auto;}
-.bet-outside{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:100%;max-width:380px;margin-top:5px;}
-.bet-out{
-  position:relative;padding:11px 4px;border-radius:7px;font-size:11.5px;font-weight:800;text-align:center;color:var(--cream);
-  border:1px solid var(--line);background:rgba(0,0,0,.28);transition:.1s;
+.rcell{
+  position:relative;display:grid;place-items:center;color:#fff;font-size:12px;border-radius:3px;
+  border:1px solid rgba(231,194,90,.45);background:rgba(255,255,255,.03);transition:filter .1s, transform .1s;
+  cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.5);
 }
-.bet-out.r1{background:rgba(158,36,24,.4);}
-.bet-out.b1{background:rgba(20,20,20,.6);}
-.bet-out:active{filter:brightness(1.4);}
-.bet-out .stake{position:absolute;top:-6px;right:-6px;background:var(--gold);color:#241a04;font-size:9px;min-width:16px;height:16px;border-radius:50%;display:grid;place-items:center;z-index:2;}
-.bet-out.span2{grid-column:span 1;}
-.bet-full{grid-column:1 / -1;}
+.rcell:active{filter:brightness(1.6);transform:scale(.96);}
+.rcell.red{background:linear-gradient(180deg,#c5281d,#9e1c12);}
+.rcell.black{background:linear-gradient(180deg,#1e1e1e,#0c0c0c);}
+.rzero{grid-column:1;grid-row:1 / span 3;background:linear-gradient(180deg,#0e8a4a,#0a6332);writing-mode:vertical-rl;text-orientation:mixed;font-size:15px;border-radius:7px 3px 3px 7px;}
+.rcol21{grid-column:14;font-size:10px;letter-spacing:.02em;background:rgba(0,0,0,.22);}
+.rband{font-size:10px;letter-spacing:.04em;text-transform:uppercase;background:rgba(0,0,0,.22);min-height:30px;}
+.rband.red{background:linear-gradient(180deg,#c5281d,#9e1c12);}
+.rband.black{background:linear-gradient(180deg,#1e1e1e,#0c0c0c);}
+.rband .dia{font-size:13px;}
+.rcell .stake{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;
+  width:19px;height:19px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 35%,#fff6cf,var(--gold));color:#241a04;font-size:9px;font-weight:900;
+  border:2px dashed #8a6b18;box-shadow:0 2px 5px rgba(0,0,0,.55);
+}
 
 /* ============================================================
    SLOTS
